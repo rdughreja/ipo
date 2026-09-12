@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPO Application Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📈 IPO Application Tracker</h1>
+            <div class="header-actions">
+                <button id="exportBtn" class="btn btn-secondary">Export Data</button>
+                <button id="importBtn" class="btn btn-secondary">Import Data</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+            </div>
+        </header>
+
+        <div class="add-ipo-section">
+            <button id="addIpoBtn" class="btn btn-primary">+ Add New IPO</button>
+        </div>
+
+        <div id="ipoList" class="ipo-list">
+            <!-- IPO cards will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing IPO -->
+    <div id="ipoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New IPO</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="ipoForm">
+                    <div class="form-group">
+                        <label for="ipoName">IPO Name*</label>
+                        <input type="text" id="ipoName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastDate">Application Last Date*</label>
+                        <input type="date" id="lastDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="listingDate">Listing Date*</label>
+                        <input type="date" id="listingDate" required>
+                    </div>
+
+                    <div class="applications-section">
+                        <h3>Applications</h3>
+                        <div id="applicationsList">
+                            <!-- Application entries will be added here -->
+                        </div>
+                        <button type="button" id="addApplicationBtn" class="btn btn-secondary btn-small">+ Add Application</button>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save IPO</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
