@@ -3,69 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPO Application Tracker</title>
+    <title>IPO Vault — Smart Multi-Account IPO Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📈 IPO Application Tracker</h1>
+    <!-- Background Glow Blobs -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <div class="app-container">
+        <!-- Top Navigation / Header -->
+        <header class="main-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 3v18h18"/>
+                        <path d="m19 9-5 5-4-4-3 3"/>
+                        <circle cx="19" cy="9" r="2" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="brand-title">IPO Vault <span class="badge-pro">PRO</span></h1>
+                    <p class="brand-subtitle">Multi-Account Application & Allotment Tracker</p>
+                </div>
+            </div>
+
             <div class="header-actions">
-                <button id="exportBtn" class="btn btn-secondary">Export Data</button>
-                <button id="importBtn" class="btn btn-secondary">Import Data</button>
-                <input type="file" id="importFile" accept=".json" style="display: none;">
+                <button id="addIpoBtn" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>Add New IPO</span>
+                </button>
+                <div class="data-actions-group">
+                    <button id="exportBtn" class="btn btn-glass" title="Export JSON backup">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <span>Export</span>
+                    </button>
+                    <button id="importBtn" class="btn btn-glass" title="Import JSON backup">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <span>Import</span>
+                    </button>
+                    <input type="file" id="importFile" accept=".json" style="display: none;">
+                </div>
             </div>
         </header>
 
-        <div class="add-ipo-section">
-            <button id="addIpoBtn" class="btn btn-primary">+ Add New IPO</button>
-        </div>
+        <!-- Stats Overview Cards -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-blue">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Total IPOs</span>
+                    <h3 class="stat-value" id="statTotalIpos">0</h3>
+                </div>
+            </div>
 
-        <div id="ipoList" class="ipo-list">
-            <!-- IPO cards will be dynamically added here -->
-        </div>
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-purple">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Applications</span>
+                    <h3 class="stat-value" id="statTotalApps">0</h3>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-green">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Allotted / Success 🎉</span>
+                    <h3 class="stat-value" id="statSuccessApps">0</h3>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-amber">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Success Rate</span>
+                    <h3 class="stat-value" id="statSuccessRate">0%</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls: Search & Filter Tabs -->
+        <section class="controls-bar">
+            <div class="search-box">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search by IPO name, account or bank UPI...">
+                <button id="clearSearchBtn" class="clear-search-btn" style="display: none;">&times;</button>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All (<span id="countAll">0</span>)</button>
+                <button class="filter-tab" data-filter="active">🟢 Active / Open (<span id="countActive">0</span>)</button>
+                <button class="filter-tab" data-filter="allotted">🎉 Allotted (<span id="countAllotted">0</span>)</button>
+                <button class="filter-tab" data-filter="closed">📁 Closed (<span id="countClosed">0</span>)</button>
+            </div>
+        </section>
+
+        <!-- IPO Cards Grid -->
+        <main id="ipoList" class="ipo-list">
+            <!-- Cards populated dynamically -->
+        </main>
     </div>
 
     <!-- Modal for adding/editing IPO -->
     <div id="ipoModal" class="modal">
+        <div class="modal-backdrop"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Add New IPO</h2>
-                <span class="close">&times;</span>
+                <div>
+                    <h2 id="modalTitle">Add New IPO</h2>
+                    <p class="modal-subtitle">Track multiple applications under one IPO</p>
+                </div>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
-            <div class="modal-body">
-                <form id="ipoForm">
-                    <div class="form-group">
-                        <label for="ipoName">IPO Name*</label>
-                        <input type="text" id="ipoName" required>
-                    </div>
 
+            <form id="ipoForm">
+                <div class="modal-body">
                     <div class="form-group">
-                        <label for="lastDate">Application Last Date*</label>
-                        <input type="date" id="lastDate" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="listingDate">Listing Date*</label>
-                        <input type="date" id="listingDate" required>
-                    </div>
-
-                    <div class="applications-section">
-                        <h3>Applications</h3>
-                        <div id="applicationsList">
-                            <!-- Application entries will be added here -->
+                        <label for="ipoName">IPO Company Name <span class="req">*</span></label>
+                        <div class="input-with-icon">
+                            <span class="input-icon">🏢</span>
+                            <input type="text" id="ipoName" required placeholder="e.g. Swiggy, Tata Tech, Hyundai">
                         </div>
-                        <button type="button" id="addApplicationBtn" class="btn btn-secondary btn-small">+ Add Application</button>
                     </div>
 
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save IPO</button>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lastDate">Application Close Date <span class="req">*</span></label>
+                            <input type="date" id="lastDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="listingDate">Listing Date <span class="req">*</span></label>
+                            <input type="date" id="listingDate" required>
+                        </div>
                     </div>
-                </form>
-            </div>
+
+                    <!-- Quick Preset Family Accounts -->
+                    <div class="quick-presets">
+                        <span class="preset-label">⚡ Quick Add Account:</span>
+                        <div class="preset-chips">
+                            <button type="button" class="preset-chip" data-account="My Account" data-upi="SBI UPI">🧑 Myself (SBI)</button>
+                            <button type="button" class="preset-chip" data-account="Father's Account" data-upi="Axis UPI">👨 Father (Axis)</button>
+                            <button type="button" class="preset-chip" data-account="Mother's Account" data-upi="SBI UPI">👩 Mother (SBI)</button>
+                            <button type="button" class="preset-chip" data-account="Brother's Account" data-upi="HDFC UPI">👦 Brother (HDFC)</button>
+                        </div>
+                    </div>
+
+                    <!-- Applications Section -->
+                    <div class="applications-container">
+                        <div class="applications-header">
+                            <div>
+                                <h3>Account Applications</h3>
+                                <p>Add all Demat accounts used for this IPO</p>
+                            </div>
+                            <button type="button" id="addApplicationBtn" class="btn btn-secondary btn-sm">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>Add Account</span>
+                            </button>
+                        </div>
+
+                        <div id="applicationsList" class="applications-entries">
+                            <!-- Dynamic Application Fields -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveIpoBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        <span>Save IPO</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Canvas for Confetti celebration -->
+    <canvas id="confettiCanvas"></canvas>
 
     <script src="script.js"></script>
 </body>
