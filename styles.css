@@ -943,10 +943,17 @@ body {
     transform: translateY(-50%);
     font-size: 16px;
     pointer-events: none;
+    transition: opacity 0.2s ease;
 }
 
-.input-with-icon input {
-    padding-left: 42px;
+.input-with-icon input:not(:placeholder-shown) + .input-icon,
+.input-with-icon input:focus + .input-icon {
+    opacity: 0;
+}
+
+.input-with-icon input:focus,
+.input-with-icon input:not(:placeholder-shown) {
+    padding-left: 14px;
 }
 
 .modal-body input {
